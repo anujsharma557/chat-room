@@ -8,8 +8,8 @@
                  socket.onopen=function(){
                  console.log("connection open for msg")
                  }
-                 socket.onmessage=function(message){
-                 printMessage(message.data)
+                 socket.onmessage=function(textMsg){
+                 printMessage(textMsg.data)
                  }
                  document.getElementById('connectButton').disabled = true;
                  document.getElementById('connectButton').value = "Connected";
@@ -23,9 +23,9 @@
                 messages.appendChild(newMessage);
             }
             function sendToGroupChat() {
-                var messageText = document.getElementById('message').value;
+                var messageText = document.getElementById('textMsg').value;
                 console.log(messageText);
-                document.getElementById('message').value="";
+                document.getElementById('textMsg').value="";
                 let name = document.getElementById('name').value;
                  let messagesObj = {
                  name:name,
@@ -44,9 +44,9 @@
         <button id="connectButton" onclick="connect();">Connect</button>
     </div>
     <br />
-    <div id="messages"></div>
+    <div id="messages" ></div>
     <div id="conversationDiv">
-        <input type="text" id="message" placeholder="Write a message..."/>
+        <input type="text" id="textMsg" placeholder="Write a message..."/>
         <input type="button" value="send" onclick="sendToGroupChat()">
     </div>
 </div>
