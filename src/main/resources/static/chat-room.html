@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Chat WebSocket</title>
+    <script type="application/javascript">
+            let socket;
+            function connect() {
+                 socket = new WebSocket("ws://localhost:8080/client");
+                 socket.onopen=function(){
+                 console.log("connection open for msg")
+                 }
+                 socket.onmessage=function(message){
+                 printMessage(message.data)
+                 }
+                 document.getElementById('connectButton').disabled = true;
+                 document.getElementById('connectButton').value = "Connected";
+                 document.getElementById('name').disable=visibility
+            }
+            function printMessage(data) {
+                let messages = document.getElementById('messages');
+                let messageData = JSON.parse(data);
+                let newMessage=document.createElement("div");
+                newMessage.innerHTML=messageData.name+ ":"+messageData.message;
+                messages.appendChild(newMessage);
+            }
+            function sendToGroupChat() {
+                var messageText = document.getElementById('message').value;
+                console.log(messageText);
+                document.getElementById('message').value="";
+                let name = document.getElementById('name').value;
+                 let messagesObj = {
+                 name:name,
+                 message:messageText
+                 }
+                 socket.send(JSON.stringify(messagesObj))
+            }
+        </script>
+</head>
+<div>
+    <div>
+        <input type="text" id="name" placeholder="your nickname"/>
+    </div>
+    <br />
+    <div>
+        <button id="connectButton" onclick="connect();">Connect</button>
+    </div>
+    <br />
+    <div id="messages"></div>
+    <div id="conversationDiv">
+        <input type="text" id="message" placeholder="Write a message..."/>
+        <input type="button" value="send" onclick="sendToGroupChat()">
+    </div>
+</div>
+
+</body>
+</html>
