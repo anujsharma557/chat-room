@@ -3,26 +3,26 @@
     <title>Chat WebSocket</title>
     <script type="application/javascript">
             let socket;
-            function connect() {
+            function WSConnect() {
                  socket = new WebSocket("ws://localhost:8080/client");
                  socket.onopen=function(){
-                 console.log("connection open for msg")
+                 console.log("A new user joined the chat room")
                  }
                  socket.onmessage=function(textMsg){
-                 printMessage(textMsg.data)
+                 displayMessage(textMsg.data)
                  }
-                 document.getElementById('connectButton').disabled = true;
-                 document.getElementById('connectButton').value = "Connected";
+                 document.getElementById('WSConnectButton').disabled = true;
+                 document.getElementById('WSConnectButton').value = "Connected";
                  document.getElementById('name').disable=visibility
             }
-            function printMessage(data) {
-                let messages = document.getElementById('messages');
+            function displayMessage(data) {
+                let chatMessages = document.getElementById('chatMessages');
                 let messageData = JSON.parse(data);
                 let newMessage=document.createElement("div");
                 newMessage.innerHTML=messageData.name+ ":"+messageData.message;
-                messages.appendChild(newMessage);
+                chatMessages.appendChild(newMessage);
             }
-            function sendToGroupChat() {
+            function sendToChatRoom() {
                 var messageText = document.getElementById('textMsg').value;
                 console.log(messageText);
                 document.getElementById('textMsg').value="";
@@ -41,13 +41,14 @@
     </div>
     <br />
     <div>
-        <button id="connectButton" onclick="connect();">Connect</button>
+        <button id="WSConnectButton" onclick="WSConnect();">Start Session</button>
     </div>
     <br />
-    <div id="messages" ></div>
+    <div id="activeUsers:" ></div>
+    <div id="chatMessages" ></div>
     <div id="conversationDiv">
         <input type="text" id="textMsg" placeholder="Write a message..."/>
-        <input type="button" value="send" onclick="sendToGroupChat()">
+        <input type="button" value="send" onclick="sendToChatRoom()">
     </div>
 </div>
 
